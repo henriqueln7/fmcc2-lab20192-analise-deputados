@@ -13,7 +13,10 @@ da classe Deputado, e retorna o produto interno representando
 o grau de similaridade entre a política de voto dos dois deputados dados.
 '''
 def comparar(dep_a, dep_b, deputados):
-	raise NotImplementedError
+	votosA = deputados[dep_a].votos;
+	votosB = deputados[dep_b].votos;
+
+	return votosA * votosB;
 
 '''
 Tarefa 03 - Encontrar o deputado mais similar com um deputado dado
@@ -24,7 +27,19 @@ deputado com o grau de similaridade máxima, todos os nomes devem ser retornados
 em uma lista.
 '''
 def mais_similar(dep, deputados):
-	raise NotImplementedError
+	res = []
+	diff = -3000000 # Tem que mudar para uma variavel grande rsrsrs
+	for deputado in deputados:
+		if deputado != dep: # Remover essa linha depois
+			similaridade = comparar(dep, deputado, deputados)
+			if similaridade >= diff:
+				if similaridade > diff:
+					res = []
+				res.append(deputado)
+				diff = similaridade
+	return res[0] if len(res) == 0 else res #Checar se há mais de um elemento na lista
+			
+		
 
 '''
 Tarefa 04 - Encontrar o deputado menos similar com um deputado dado
@@ -41,7 +56,10 @@ com todos os deputados cujos nomes estão em dep_set, computando um produto inte
 cada, e então retornando o produto interno médio.
 '''
 def encontra_similaridade_media(dep, dep_set, deputados):
-	raise NotImplementedError
+	soma = 0
+	for deputado in dep_set:
+		soma += comparar(dep, deputado, deputados)
+	return soma / len(dep_set)
 
 '''
 Tarefa 06 - Implemente a função encontra_registro_medio(dep_set, voting_dict) que,
