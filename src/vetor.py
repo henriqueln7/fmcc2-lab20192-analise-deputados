@@ -3,12 +3,12 @@
 class Vetor:
     
     '''
-    Inicializa o vetor a partir de uma lista.
-    @param lista Lista contendo os elementos que devem ser as entradas do vetor.
+    Inicializa o vetor a partir de uma entradas.
+    @param entradas entradas contendo os elementos que devem ser as entradas do vetor.
     '''
-    def __init__(self, lista):
-        self.entradas = lista
-        self.size = len(lista)
+    def __init__(self, entradas):
+        self.entradas = entradas
+        self.size = len(entradas)
     
     '''
     Retorna a dimensão do vetor.
@@ -29,7 +29,10 @@ class Vetor:
     @return objeto da classe Vetor representando o vetor resultante.
     '''
     def __add__(self, vetor):
-        raise NotImplementedError
+        v = []
+        for i in range(self.size):
+            v.append(self[i] + vetor[i])
+        return Vetor(v);
     
     def __radd__(self, vetor):
         return self.__add__(vetor)
@@ -48,13 +51,19 @@ class Vetor:
         Implementa a multiplicação por escalar
         '''
         if isinstance(mult, float) or isinstance(mult, int):
-            raise NotImplementedError
+            vetor = []
+            for i in range(self.size):
+                vetor.append(self[i] * mult)
+            return Vetor(vetor)
         
         '''
         Implementa o produto vetorial
         '''
         if isinstance(mult, Vetor):
-            raise NotImplementedError
+            produtoVetorial = 0
+            for i in range(self.size):
+                produtoVetorial += self[i] * mult[i]
+            return produtoVetorial
     
     def __rmul__(self, mult):
         return self.__mul__(mult)
@@ -77,7 +86,10 @@ class Vetor:
     @return boolean True se forem igual, False caso contrário
     '''
     def __eq__(self, vetor):
-        raise NotImplementedError
+        for i in range(self.size):
+            if self[i] != vetor[i]:
+                return False
+        return True
     
     def __neq__(self, vetor):
         return not self.__eq__(vetor)
