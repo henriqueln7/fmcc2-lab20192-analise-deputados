@@ -203,19 +203,33 @@ O retorno deve ser uma lista contendo os nomes dos dois deputados.
 
 def rivais_amargos(deputados):
 	# Varrendo os deputados e selecionando os que são menos similares
-	maior_similaridade = 0
+	menor_similaridade = 0
 	rivais = []
-	for dep1 in deputados:
-		for dep2 in deputados:
-			similaridade = comparar(dep1, dep2, deputados)
-			if similaridade >= maior_similaridade:
-				maior_similaridade = similaridade
+	lista_deputados = list(deputados.keys())
+	for i in range(len(lista_deputados)):
+		for j in range(i + 1, len(lista_deputados)):
+			dep1 = lista_deputados[i]
+			dep2 = lista_deputados[j]
+			similaridade = comparar(dep1, dep2, deputados) if dep1 != dep2 else 0
+			if similaridade <= menor_similaridade:
+				menor_similaridade = similaridade
 				rivais = [dep1, dep2]
 	return rivais
 
 
 def amigos_adocicados(deputados):
-	raise NotImplementedError
+	maior_similaridade = 0
+	amigos = []
+	lista_deputados = list(deputados.keys())
+	for i in range(len(lista_deputados)):
+		for j in range(i + 1, len(lista_deputados)):
+			dep1 = lista_deputados[i]
+			dep2 = lista_deputados[j]
+			similaridade = comparar(dep1, dep2, deputados) if dep1 != dep2 else 0
+			if similaridade >= maior_similaridade:
+				maior_similaridade = similaridade
+				amigos = [dep1, dep2]
+	return amigos
 
 '''
 Tarefa 10 - Implemente as funções a seguir:
@@ -230,7 +244,50 @@ O retorno, para ambas, deve ser o nome do partido.
 '''
 
 def encontra_partido_mais_coerente(deputados):
-	raise NotImplementedError
-    
+	# Obtendo os partidos e colocando os candidatos em uma lista dentro
+	partidos = dict()
+	for deputado in deputados:
+		partido = deputados[deputado].partido
+		if partido not in partidos:
+			partidos[partido] = []
+		partidos[partido].append(deputado)
+	
+	# Obtendo a similaridade e comparando
+	mais_similar = 0
+	partido_mais_coerente = ""
+
+	for partido in partidos:
+		similaridade = 0
+		for deputado in partidos[partido]:
+			similaridade += similaridade_no_partido(deputado, deputados)
+		similaridadePartido = similaridade / len(partidos[partido])
+		if similaridadePartido >= mais_similar:
+			mais_similar = similaridadePartido
+			partido_mais_coerente = partido
+	
+	return partido_mais_coerente
+
 def encontra_partido_menos_coerente(deputados):
-	raise NotImplementedError
+	# Obtendo os partidos e colocando os candidatos em uma lista dentro
+	partidos = dict()
+	for deputado in deputados:
+		partido = deputados[deputado].partido
+		if partido not in partidos:
+			partidos[partido] = []
+		partidos[partido].append(deputado)
+
+	# Obtendo a similaridade e comparando
+	menos_similar = 300000
+	partido_menos_coerente = ""
+	
+	for partido in partidos:
+		similaridade = 0
+		for deputado in partidos[partido]:
+			similaridade += similaridade_no_partido(deputado, deputados)
+		similaridadePartido = similaridade / len(partidos[partido])
+		if similaridadePartido <= menos_similar:
+			menos_similar = similaridadePartido
+			partido_menos_coerente = partido
+	
+	return partido_menos_coerente
+	
