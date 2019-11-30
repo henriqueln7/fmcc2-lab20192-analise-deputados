@@ -37,7 +37,7 @@ def mais_similar(dep, deputados):
 					res = []
 				res.append(deputado)
 				diff = similaridade
-	return res[0] if len(res) == 0 else res #Checar se há mais de um elemento na lista
+	return res[0] if len(res) == 1 else res #Checar se há mais de um elemento na lista
 			
 		
 
@@ -79,6 +79,8 @@ Tarefa 07 - Implemente as funções a seguir
 - registro_medio_regiao(regiao, deputados) que, dada o nome de uma região do
   Brasil encontra o registro médio de votação desta região.
 
+  Considere os nomes da regiões brasileiras sendo NORTE, SUL, SUDESTE, NORDESTE e CENTRO-OESTE
+
 O retorno de todas as funções descritas nesta tarefa deve ser um vetor.
 '''
 
@@ -99,10 +101,13 @@ Tarefa 08 - Implemente as funções a seguir:
   dado o nome de um deputado encontra o grau de similaridade dele com seu estado.
 - similaridade_na_regiao(dep, deputados) que,
   dado o nome de um deputado encontra o grau de similaridade dele com sua regiao.
+
+Para as funções acima o retorno deve ser o respectivo grau de similaridade.
+
 - encontra_mais_alinhado_partido(partido, deputados) que,
   dado o nome de um partido encontra o deputado mais similar ao partido.
   
-Para as funções acima o retorno deve ser uma lista contendo o nome do deputado e seu respectivo
+Para a função acima o retorno deve ser uma lista contendo o nome do deputado e seu respectivo
 grau de similaridade.
 '''
 

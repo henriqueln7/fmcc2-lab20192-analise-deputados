@@ -3,12 +3,12 @@
 class Vetor:
     
     '''
-    Inicializa o vetor a partir de uma entradas.
-    @param entradas entradas contendo os elementos que devem ser as entradas do vetor.
+    Inicializa o vetor a partir de uma lista.
+    @param lista Lista contendo os elementos que devem ser as entradas do vetor.
     '''
-    def __init__(self, entradas):
-        self.entradas = entradas
-        self.size = len(entradas)
+    def __init__(self, lista):
+        self.entradas = lista
+        self.size = len(lista)
     
     '''
     Retorna a dimensão do vetor.
@@ -77,7 +77,7 @@ class Vetor:
     '''
     Implementa a divisão por escalar.
     '''
-    def __truediv__(self, fator):
+    def __div__(self, fator):
         return self.__mul__(1.0/fator);
     
     '''
