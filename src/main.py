@@ -4,6 +4,13 @@ from deputado import *
 from vetor import *
 
 matriculas = ["", "", ""] #Preencham suas matrículas dentro desta variável
+regioes = {
+	'NORTE': ['AM', 'RR', 'AP', 'PA', 'PA', 'TO', 'RO', 'AC'],
+	'NORDESTE': ['MA', 'PI', 'CE', 'RN', 'PE', 'PB', 'SE', 'AL', 'BA'], 
+	'CENTRO-OESTE': ['MT', 'MS', 'GO'], 
+	'SUDESTE': ['SP', 'RJ', 'ES', 'MG'],
+	'SUL': ['PR', 'RS', 'SC']
+	}
 
 '''
 Tarefa 02 - Comparar o alinhamento de dois deputados
@@ -47,7 +54,17 @@ Similar a tarefa 03, porém deve retornar o nome do deputado menos similar
 ou uma lista com todos os nomes, em caso de empate.
 '''
 def menos_similar(dep, deputados):
-	raise NotImplementedError
+	res = []
+	diff = 3000000 # Tem que mudar para uma variavel grande rsrsrs
+	for deputado in deputados:
+		if deputado != dep: # Remover essa linha depois
+			similaridade = comparar(dep, deputado, deputados)
+			if similaridade <= diff:
+				if similaridade < diff:
+					res = []
+				res.append(deputado)
+				diff = similaridade
+	return res[0] if len(res) == 1 else res #Checar se há mais de um elemento na lista
 
 '''
 Tarefa 05 - Implementar a função encontra_similaridade_media(dep, dep_set, deputados)
@@ -68,7 +85,12 @@ Isto é, realize adição vetorial na listas representando o registro de suas vo
 e então divida a soma pelo número de vetores. O resultado deve ser um vetor.
 '''
 def encontra_registro_medio(dep_set, deputados):
-	raise NotImplementedError
+	res = Vetor([0 for i in range(len(deputados))]) # Cria um vetor nulo do tamanho do vetor dos deputados
+	cont = 0
+	for deputado in dep_set:
+		res = res + deputados[deputado].votos;
+		cont += 1
+	return res * (1 / cont)
 
 '''
 Tarefa 07 - Implemente as funções a seguir
@@ -85,13 +107,27 @@ O retorno de todas as funções descritas nesta tarefa deve ser um vetor.
 '''
 
 def registro_medio_partido(partido, deputados):
-	raise NotImplementedError
+	dep_set = []
+	for deputado in deputados:
+		if deputados[deputado].partido == partido:
+			dep_set.append(deputado)
+	return encontra_registro_medio(dep_set, deputados)
     
 def registro_medio_estado(estado, deputados):
-	raise NotImplementedError
+	dep_set = []
+	for deputado in deputados:
+		if deputados[deputado].estado == estado:
+			dep_set.append(deputado)
+	return encontra_registro_medio(dep_set, deputados)
     
 def registro_medio_regiao(regiao, deputados):
-	raise NotImplementedError
+
+
+	dep_set = []
+	for deputado in deputados:
+		if deputados[deputado].estado in regioes[regiao]:
+			dep_set.append(deputado)
+	return encontra_registro_medio(dep_set, deputados) 
 
 '''
 Tarefa 08 - Implemente as funções a seguir:
@@ -112,16 +148,50 @@ grau de similaridade.
 '''
 
 def similaridade_no_partido(dep, deputados):
-	raise NotImplementedError
+	dep_set = []
+	for deputado in deputados:
+		if deputados[deputado].partido == deputados[dep].partido:
+			dep_set.append(deputado)
+	return encontra_similaridade_media(dep, dep_set, deputados)
 
 def similaridade_no_estado(dep, deputados):
-	raise NotImplementedError
+	dep_set = []
+	for deputado in deputados:
+		if deputados[deputado].estado == deputados[dep].estado:
+			dep_set.append(deputado)
+	return encontra_similaridade_media(dep, dep_set, deputados)
 
 def similaridade_na_regiao(dep, deputados):
-	raise NotImplementedError
+	regiao_deputado = ""
+	for regiao in regioes:
+		if deputados[dep].estado in regioes[regiao]:
+			regiao_deputado = regiao
+	
+	dep_set = []
+	for deputado in deputados:
+		if deputados[deputado].estado in regioes[regiao_deputado]:
+			dep_set.append(deputado)
+	return encontra_similaridade_media(dep, dep_set, deputados)
 
 def encontra_mais_alinhado_partido(partido, deputados):
-	raise NotImplementedError
+	# Obtendo os deputados do partido
+	dep_set = []
+	for deputado in deputados:
+		if deputados[deputado].partido == partido:
+			dep_set.append(deputado)
+
+	# Varrendo os deputados do partido e selecionando aquele que tem a maior similaridade
+	maior_similaridade = 0
+	deputado_similar = ''
+	for deputado in dep_set:
+		similaridade = encontra_similaridade_media(deputado, dep_set, deputados)
+		if similaridade >= maior_similaridade:
+			maior_similaridade = similaridade
+			deputado_similar = deputado
+
+	return [deputado_similar, maior_similaridade]
+
+
 
 '''
 Tarefa 09 - Implemente as funções a seguir:
@@ -132,7 +202,17 @@ O retorno deve ser uma lista contendo os nomes dos dois deputados.
 '''
 
 def rivais_amargos(deputados):
-	raise NotImplementedError
+	# Varrendo os deputados e selecionando os que são menos similares
+	maior_similaridade = 0
+	rivais = []
+	for dep1 in deputados:
+		for dep2 in deputados:
+			similaridade = comparar(dep1, dep2, deputados)
+			if similaridade >= maior_similaridade:
+				maior_similaridade = similaridade
+				rivais = [dep1, dep2]
+	return rivais
+
 
 def amigos_adocicados(deputados):
 	raise NotImplementedError
