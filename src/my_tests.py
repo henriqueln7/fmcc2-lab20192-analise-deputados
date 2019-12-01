@@ -73,5 +73,8 @@ test(encontra_mais_alinhado_partido("PRTB", deputados), ['194340', 859.0], order
 # fim = time.time()
 # print(fim - inicio)
 
-print(encontra_partido_mais_coerente(deputados))
-print(encontra_partido_menos_coerente(deputados))
+# print(comparar('74041', '74847', deputados))
+# print(comparar('178867', '178881', deputados))
+
+# print(encontra_partido_mais_coerente(deputados))
+# print(encontra_partido_menos_coerente(deputados))
