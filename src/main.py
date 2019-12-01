@@ -3,7 +3,7 @@
 from deputado import *
 from vetor import *
 
-matriculas = ["", "", ""] #Preencham suas matrículas dentro desta variável
+matriculas = ["119110534", "119110256", "119110985"] #Preencham suas matrículas dentro desta variável
 regioes = {
 	'NORTE': ['AM', 'RR', 'AP', 'PA', 'PA', 'TO', 'RO', 'AC'],
 	'NORDESTE': ['MA', 'PI', 'CE', 'RN', 'PE', 'PB', 'SE', 'AL', 'BA'], 
@@ -88,7 +88,7 @@ def encontra_registro_medio(dep_set, deputados):
 	res = Vetor([0 for i in range(len(deputados))]) # Cria um vetor nulo do tamanho do vetor dos deputados
 	cont = 0
 	for deputado in dep_set:
-		res = res + deputados[deputado].votos;
+		res += deputados[deputado].votos;
 		cont += 1
 	return res * (1 / cont)
 
@@ -121,8 +121,6 @@ def registro_medio_estado(estado, deputados):
 	return encontra_registro_medio(dep_set, deputados)
     
 def registro_medio_regiao(regiao, deputados):
-
-
 	dep_set = []
 	for deputado in deputados:
 		if deputados[deputado].estado in regioes[regiao]:
